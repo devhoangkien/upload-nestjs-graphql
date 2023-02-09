@@ -9,7 +9,7 @@ import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { Module, Scope } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UploadModule } from './upload/upload.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MorganInterceptor, MorganModule } from "nest-morgan";
 
@@ -18,11 +18,21 @@ import { MorganInterceptor, MorganModule } from "nest-morgan";
     UploadModule,
     MorganModule,
     ConfigModule.forRoot({ isGlobal: true }),  
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      debug: false,
-      playground: true,
-      autoSchemaFile: 'schema.gql',
+      useFactory: (configService) => {
+        const playground = configService.get("GRAPHQL_PLAYGROUND");
+        const introspection = configService.get("GRAPHQL_INTROSPECTION");
+        return {
+          autoSchemaFile: "schema.graphql",
+          sortSchema: true,
+          playground,
+          introspection: playground || introspection,
+        };
+      },
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      
     }),
   ],
   controllers: [],
