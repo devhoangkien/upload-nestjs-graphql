@@ -1,0 +1,34 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ResponseSingleUpload {
+  url: String!
+  format: String!
+  folder: String!
+  width: Float!
+  height: Float!
+  bytes: Float!
+}
+
+type Query {
+  item: String!
+}
+
+type Mutation {
+  uploadSingleFiles(setting: UploadParamInput!, file: Upload!): ResponseSingleUpload!
+}
+
+input UploadParamInput {
+  uploadService: EnumService!
+  folder: String!
+}
+
+enum EnumService {
+  Cloudinary
+  S3Storage
+  Web3Storage
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
