@@ -5,16 +5,10 @@ Website: https://devhoangkien.com
 
 ------------------------------------------------------------------------------
 */
-import { InputType, Field, Scalar } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 import {
   IsString,
-  IsOptional,
-  IsNumber,
-  IsDate,
-  ValidateNested,
-  IsJSON,
   IsEnum,
-  IsEmail,
 } from "class-validator";
 import { EnumService, EnumFolders } from './EnumService';
 

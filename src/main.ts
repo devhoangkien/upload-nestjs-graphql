@@ -12,6 +12,7 @@ import { graphqlUploadExpress } from "graphql-upload-minimal";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // only using graphql
   app.use((req: any, res: any, next: any) => {
     if (req.url.includes('/graphql')) {
       // only graphql request

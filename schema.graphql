@@ -9,6 +9,7 @@ enum EnumService {
 }
 
 type Mutation {
+  uploadMultipleFiles(files: [Upload!]!, setting: UploadParamInput!): [ResponseSingleUpload!]!
   uploadSingleFiles(file: Upload!, setting: UploadParamInput!): ResponseSingleUpload!
 }
 

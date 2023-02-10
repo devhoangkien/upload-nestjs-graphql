@@ -49,6 +49,48 @@ export class UploadService {
     return this.cloudinary(buffer, args.setting.folder)
   }
 
+  /**
+   * @upload GRAPHQL
+   * @param files upload mutiple file with multer with GRAPHQL
+   * @param setting setting folder, service upload
+   * @returns 
+   */
+  async uploadMultipleGraphql(
+    args: any
+  ): Promise<any>
+  {
+    if(args.setting.uploadService === EnumService.Cloudinary){
+      return this.uploadMultipleToCloudinaryGraphql(args)
+    }
+
+    if(args.setting.uploadService === EnumService.S3Storage){
+      return 
+    }
+
+    if(args.setting.uploadService === EnumService.Web3Storage){
+      return 
+    }
+  }
+
+
+  // upload multiple to cloudinary with graphql
+  async uploadMultipleToCloudinaryGraphql(args: any): Promise<any>{
+    try {
+
+      let arrayResponse: any[] = []
+      await Promise.all(args.files.map(async (file: any) => {
+        const argsReq = {
+          file,
+          setting: args.setting
+        }
+       const result = await this.uploadSingleToCloudinaryGraphql(argsReq)
+       arrayResponse.push(result)
+      }))
+      return arrayResponse
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   async streamToBuffer(stream: Readable): Promise<Buffer> {
     const buffer: Uint8Array[] = [];
